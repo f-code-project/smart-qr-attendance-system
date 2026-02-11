@@ -3,7 +3,7 @@ interface TimeStatus {
   color: string;
   status: 'expired' | 'urgent' | 'near' | 'far' | 'active';
 }
-class FormatDateUtils {
+class DateUtils {
   static formatDate(date: string): string {
     const d = new Date(date);
     const adjusted = new Date(d.getTime() + d.getTimezoneOffset() * 60000);
@@ -101,28 +101,28 @@ class FormatDateUtils {
     const now = new Date();
 
     if (isNaN(start.getTime()) || isNaN(end.getTime())) {
-      return { text: 'Ngày không hợp lệ', color: '#9CA3AF', status: 'expired' };
+      return { text: 'Ngày không hợp lệ', color: 'warning', status: 'expired' };
     }
 
     if (now > end) {
-      return { text: 'Đã kết thúc', color: '#6B7280', status: 'expired' };
+      return { text: 'Đã kết thúc', color: 'error', status: 'expired' };
     }
 
     if (now >= start && now <= end) {
-      return { text: 'Đang diễn ra', color: '#10B981', status: 'active' };
+      return { text: 'Đang diễn ra', color: 'success', status: 'active' };
     }
 
     const diffInMs = start.getTime() - now.getTime();
     const seconds = Math.floor(diffInMs / 1000);
 
-    let color = '#3B82F6';
+    let color = 'info';
     let status: TimeStatus['status'] = 'far';
 
     if (seconds < 3600) {
-      color = '#EF4444';
+      color = 'error';
       status = 'urgent';
     } else if (seconds < 86400) {
-      color = '#F59E0B';
+      color = 'warning';
       status = 'near';
     }
 
@@ -146,7 +146,7 @@ class FormatDateUtils {
       }
     }
 
-    return { text: 'Sắp bắt đầu', color: '#EF4444', status: 'urgent' };
+    return { text: 'Sắp bắt đầu', color: 'error', status: 'urgent' };
   }
 }
-export default FormatDateUtils;
+export default DateUtils;
