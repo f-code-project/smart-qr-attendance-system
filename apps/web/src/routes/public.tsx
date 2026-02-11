@@ -1,6 +1,7 @@
 import { lazy } from 'react';
 import { Navigate } from 'react-router';
 import MainLayout from '../layouts/MainLayout';
+import ScannerPage from '../pages/qr-scanner/scanner.page';
 import Loadable from './Loadable';
 // import HomePage from '../pages/home/home.page';
 
@@ -30,5 +31,9 @@ export const publicRoutes = [
       { path: '404', element: <NotFoundPage /> },
       { path: '*', element: <Navigate to="/404" replace /> }, // luôn nằm ở cúi nhé =))
     ],
+  },
+  {
+    path: '/qr-scanner/:id',
+    element: <ScannerPage />,
   },
 ];
