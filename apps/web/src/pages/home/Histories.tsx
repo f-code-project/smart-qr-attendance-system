@@ -1,92 +1,83 @@
-import { ArrowRight } from 'lucide-react';
-import { Link } from 'react-router';
+import Paginate from '../../components/Paginate';
 
 const Histories = () => {
   const mockData = [
     {
       id: 1,
-      name: 'Nguyễn Văn A',
-      studentId: 'SE200947',
-      transactionCode: 'SE200947_QT2',
-      content: 'DINH NHU TOAN chuyen tien...',
-
-      amount: 50000,
-      event: 'Quỹ Tháng 02',
-      time: '2026-02-09 14:30:00',
-      timeAgo: '10 giây trước',
-      status: 'success',
+      eventName: 'Họp CLB định kỳ tháng 2',
+      participantsCount: 50,
+      attendeeCount: 45,
+      description: 'Họp tổng kết hoạt động tháng 1 và lên kế hoạch cho tháng 2',
+      startDate: '2026-02-15 14:00:00',
+      endDate: '2026-02-15 16:00:00',
+      status: 'Sắp diễn ra',
+      statusColor: 'info',
     },
     {
       id: 2,
-      name: 'Trần Thị B',
-      studentId: 'SE201234',
-      transactionCode: 'SE201234_TatNien',
-      content: 'DINH NHU TOAN chuyen tien...',
-
-      amount: 200000,
-      event: 'Tất Niên 2026',
-      time: '2026-02-09 13:15:00',
-      timeAgo: '1 giờ trước',
-      status: 'success',
+      eventName: 'Team Building 2026',
+      participantsCount: 50,
+      attendeeCount: 45,
+      description: 'Hoạt động team building tại Vũng Tàu, gắn kết thành viên',
+      startDate: '2026-02-08 08:00:00',
+      endDate: '2026-02-09 18:00:00',
+      status: 'Đã kết thúc',
+      statusColor: 'success',
     },
     {
       id: 3,
-      name: 'Lê Văn C',
-      studentId: 'SE202156',
-      transactionCode: 'SE202156_QT2',
-      content: 'DINH NHU TOAN chuyen tien...',
-
-      amount: 50000,
-      event: 'Quỹ Tháng 02',
-      time: '2026-02-09 11:20:00',
-      timeAgo: '3 giờ trước',
-      status: 'success',
+      eventName: 'Workshop: Kỹ năng thuyết trình',
+      participantsCount: 50,
+      attendeeCount: 45,
+      description: 'Workshop về kỹ năng thuyết trình và giao tiếp hiệu quả',
+      startDate: '2026-02-10 09:00:00',
+      endDate: '2026-02-10 12:00:00',
+      status: 'Đã kết thúc',
+      statusColor: 'success',
     },
     {
       id: 4,
-      name: 'Phạm Thị D',
-      studentId: 'SE199876',
-      transactionCode: 'SE199876_TeamBuilding',
-      content: 'DINH NHU TOAN chuyen tien...',
-
-      amount: 150000,
-      event: 'Team Building',
-      time: '2026-02-08 16:45:00',
-      timeAgo: '22 giờ trước',
-      status: 'success',
+      eventName: 'Tất Niên CLB 2026',
+      participantsCount: 50,
+      attendeeCount: 45,
+      description: 'Tiệc tất niên và tổng kết hoạt động năm 2025',
+      startDate: '2026-01-25 18:00:00',
+      endDate: '2026-01-25 22:00:00',
+      status: 'Đã kết thúc',
+      statusColor: 'success',
     },
     {
       id: 5,
-      name: 'Hoàng Văn E',
-      studentId: 'SE203456',
-      transactionCode: 'SE203456_QT2',
-      content: 'DINH NHU TOAN chuyen tien...',
-      amount: 50000,
-      event: 'Quỹ Tháng 02',
-      time: '2026-02-08 09:10:00',
-      timeAgo: '1 ngày trước',
-      status: 'success',
+      eventName: 'Hoạt động tình nguyện',
+      participants: ['Hoàng Văn E', 'Phạm Thị D'],
+      participantsCount: 20,
+      description: 'Hoạt động thiện nguyện tại trung tâm trẻ em khó khăn',
+      startDate: '2026-02-20 07:00:00',
+      endDate: '2026-02-20 17:00:00',
+      status: 'Sắp diễn ra',
+      statusColor: 'info',
     },
   ];
 
   return (
     <div className="bg-base-100 shadow-xs rounded-lg">
       <div className="p-4 border-b flex justify-between items-center">
-        <h3 className="text-base font-semibold"> 100 giao dịch nhận tiền gần nhất</h3>
-        <Link to={'/history-transactions'} className="text-xs flex items-center gap-1">
+        <h3 className="text-base font-semibold">Lịch sử sự kiện</h3>
+        {/* <Link to={'/history-transactions'} className="text-xs flex items-center gap-1">
           Xem tất cả <ArrowRight size={15} />
-        </Link>
+        </Link> */}
       </div>
       <div className="overflow-x-auto">
         <table className="table">
           <thead>
             <tr>
               <th>STT</th>
-              <th>Thành viên</th>
-              <th>Mã giao dịch</th>
-              <th>Số tiền</th>
-              <th>Sự kiện</th>
-              <th>Thời gian</th>
+              <th>Tên sự kiện</th>
+              <th>Tham gia</th>
+              <th>Mô tả sự kiện</th>
+              <th>Diễn ra</th>
+              <th>Trạng thái</th>
+              <th>Thao tác</th>
             </tr>
           </thead>
           <tbody>
@@ -94,28 +85,38 @@ const Histories = () => {
               <tr key={item.id}>
                 <th>{item.id}</th>
                 <td>
-                  <div>
-                    <div className="font-medium">{item.name}</div>
-                    <div className="text-sm opacity-60">{item.studentId}</div>
-                  </div>
+                  <div className="font-medium">{item.eventName}</div>
                 </td>
-                <td className=" text-sm flex flex-col gap-1">
-                  <span className="font-medium text-gray-600">{item.transactionCode}</span>
-                  <span className="text-xs text-gray-400">{item.content}</span>
-                </td>
-                <td className="text-success font-semibold">+{item.amount.toLocaleString('vi-VN')}đ</td>
-                <td>{item.event}</td>
                 <td>
-                  <div>
-                    <div className="text-sm">{item.time}</div>
-                    <div className="text-xs opacity-60">{item.timeAgo}</div>
+                  <span className="font-bold text-primary">{item.attendeeCount}</span>/
+                  <span className="text-xs font-bold">{item.participantsCount}</span>
+                </td>
+                <td>
+                  <div className="text-sm max-w-xs truncate" title={item.description}>
+                    {item.description}
                   </div>
+                </td>
+                <td>
+                  <div className="text-sm">
+                    <span> {item.startDate}</span>
+                    <br />
+                    <span> {item.endDate}</span>
+                  </div>
+                </td>
+                <td>
+                  <span className={`badge badge-${item.statusColor} badge-sm`}>{item.status}</span>
+                </td>
+                <td>
+                  <button className="btn btn-primary btn-sm" disabled={item.status === 'Đã kết thúc'}>
+                    Điểm danh
+                  </button>
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
       </div>
+      <Paginate />
     </div>
   );
 };
