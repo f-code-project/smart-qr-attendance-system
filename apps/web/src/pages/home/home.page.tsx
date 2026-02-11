@@ -1,15 +1,17 @@
 import { Plus } from 'lucide-react';
 import { Link } from 'react-router';
 import TitlePage from '../../components/TitlePage';
+import useTitle from '../../hooks/useTitle';
 import Histories from './Histories';
 
 const HomePage = () => {
+  useTitle('Trang chủ');
   return (
     <>
       <div className="space-y-4">
         <div className="flex justify-between items-center">
           <TitlePage title="Quản lý sự kiện/ cuộc họp" description="Danh sách sự kiện và cuộc họp trong CLB" />
-          <Link to="/" className="btn btn-primary">
+          <Link to="/events/add" className="btn btn-primary">
             <Plus size={18} />
             Thêm sự kiện
           </Link>
