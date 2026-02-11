@@ -7,7 +7,7 @@ const EventsPage = () => {
   return (
     <div className="space-y-4">
       <div className="flex justify-between items-center">
-        <TitlePage title="Quản lý sự kiện" description="Quản lý các sự kiện và quỹ thu của CLB" />
+        <TitlePage title="Quản lý sự kiện/ cuộc họp" description="Quản lý các sự kiện và quỹ thu của CLB" />
         <AddEventModal />
       </div>
       <FilterEvents />
