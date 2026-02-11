@@ -9,7 +9,7 @@ const HomePage = () => {
       <div className="space-y-4">
         <div className="flex justify-between items-center">
           <TitlePage title="Quản lý sự kiện/ cuộc họp" description="Danh sách sự kiện và cuộc họp trong CLB" />
-          <Link to="/" className="btn btn-primary">
+          <Link to="/events/add" className="btn btn-primary">
             <Plus size={18} />
             Thêm sự kiện
           </Link>
