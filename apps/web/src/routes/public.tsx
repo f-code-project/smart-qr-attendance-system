@@ -6,6 +6,7 @@ import Loadable from './Loadable';
 
 const HomePage = Loadable(lazy(() => import('~/pages/home/home.page')));
 const AddEventPage = Loadable(lazy(() => import('~/pages/events/add/add.page')));
+const DetailEventPage = Loadable(lazy(() => import('~/pages/events/detail/detail.page')));
 const HistoriesPage = Loadable(lazy(() => import('~/pages/histories/histories.page')));
 const LoginPage = Loadable(lazy(() => import('~/pages/auth/login/login.page')));
 const ViolationsPage = Loadable(lazy(() => import('~/pages/violations/violations.page')));
@@ -20,6 +21,7 @@ export const publicRoutes = [
     children: [
       { index: true, element: <HomePage /> },
       { path: 'events/add', element: <AddEventPage /> },
+      { path: 'events/:id', element: <DetailEventPage /> },
       { path: 'history-transactions', element: <HistoriesPage /> },
       { path: 'violations', element: <ViolationsPage /> },
       { path: 'events', element: <EventsPage /> },
