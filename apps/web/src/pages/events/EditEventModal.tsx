@@ -49,11 +49,7 @@ const EditEventModal = () => {
                   <span className="label-text text-xs">Tên sự kiện</span>
                   <span className="label-text-alt text-error">*</span>
                 </label>
-                <input
-                  type="text"
-                  defaultValue={eventData.name}
-                  className="input input-bordered w-full"
-                />
+                <input type="text" defaultValue={eventData.name} className="input input-bordered w-full" />
               </div>
 
               <div className="form-control">
@@ -133,11 +129,7 @@ const EditEventModal = () => {
                   <span className="label-text text-xs">Ngày kết thúc</span>
                   <span className="label-text-alt text-error">*</span>
                 </label>
-                <input
-                  type="datetime-local"
-                  defaultValue={eventData.endDate}
-                  className="input input-bordered w-full"
-                />
+                <input type="datetime-local" defaultValue={eventData.endDate} className="input input-bordered w-full" />
               </div>
             </div>
 
@@ -169,10 +161,7 @@ const EditEventModal = () => {
               <label className="label">
                 <span className="label-text text-xs">Ghi chú</span>
               </label>
-              <textarea
-                className="textarea textarea-bordered h-20 w-full"
-                defaultValue={eventData.note}
-              ></textarea>
+              <textarea className="textarea textarea-bordered h-20 w-full" defaultValue={eventData.note}></textarea>
             </div>
 
             <div className="divider"></div>
