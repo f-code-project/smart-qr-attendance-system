@@ -1,4 +1,5 @@
 import { ArrowLeft } from 'lucide-react';
+import { useEffect } from 'react';
 import { Link, useParams } from 'react-router';
 import TitlePage from '../../../components/TitlePage';
 import useTitle from '../../../hooks/useTitle';
@@ -8,6 +9,7 @@ import EventInfo from './EventInfo';
 import RollCall from './RollCall';
 
 const DetailEventPage = () => {
+  // const { playSound, stopSound } = useNotificationSound('SE203677.mp3', false);
   useTitle('Chi tiết sự kiện');
   const { id } = useParams<{ id: string }>();
 
@@ -30,6 +32,10 @@ const DetailEventPage = () => {
 
   const { status } = DateUtils.formatTimeRange(event.startDate, event.endDate);
   const isActive = ['near', 'active'].includes(status);
+
+  useEffect(() => {
+    playSound();
+  }, []);
 
   return (
     <div className="space-y-4">
