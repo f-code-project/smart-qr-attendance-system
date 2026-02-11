@@ -1,4 +1,6 @@
 import Paginate from '../../components/Paginate';
+import DateUtils from '../../utils/date';
+import Helper from '../../utils/helpers';
 
 const Histories = () => {
   const mockData = [
@@ -8,8 +10,8 @@ const Histories = () => {
       participantsCount: 50,
       attendeeCount: 45,
       description: 'Họp tổng kết hoạt động tháng 1 và lên kế hoạch cho tháng 2',
-      startDate: '2026-02-15 14:00:00',
-      endDate: '2026-02-15 16:00:00',
+      startDate: '2026-02-13 14:00:00',
+      endDate: '2026-03-10 16:00:00',
       status: 'Sắp diễn ra',
       statusColor: 'info',
     },
@@ -21,7 +23,7 @@ const Histories = () => {
       description: 'Hoạt động team building tại Vũng Tàu, gắn kết thành viên',
       startDate: '2026-02-08 08:00:00',
       endDate: '2026-02-09 18:00:00',
-      status: 'Đã kết thúc',
+      status: 'Đã hoàn thành',
       statusColor: 'success',
     },
     {
@@ -32,7 +34,7 @@ const Histories = () => {
       description: 'Workshop về kỹ năng thuyết trình và giao tiếp hiệu quả',
       startDate: '2026-02-10 09:00:00',
       endDate: '2026-02-10 12:00:00',
-      status: 'Đã kết thúc',
+      status: 'Đã hoàn thành',
       statusColor: 'success',
     },
     {
@@ -43,7 +45,7 @@ const Histories = () => {
       description: 'Tiệc tất niên và tổng kết hoạt động năm 2025',
       startDate: '2026-01-25 18:00:00',
       endDate: '2026-01-25 22:00:00',
-      status: 'Đã kết thúc',
+      status: 'Đã hoàn thành',
       statusColor: 'success',
     },
     {
@@ -62,7 +64,7 @@ const Histories = () => {
   return (
     <div className="bg-base-100 shadow-xs rounded-lg">
       <div className="p-4 border-b flex justify-between items-center">
-        <h3 className="text-base font-semibold">Lịch sử sự kiện</h3>
+        <h3 className="text-base font-semibold">Danh sách các sự kiện</h3>
         {/* <Link to={'/history-transactions'} className="text-xs flex items-center gap-1">
           Xem tất cả <ArrowRight size={15} />
         </Link> */}
@@ -81,38 +83,46 @@ const Histories = () => {
             </tr>
           </thead>
           <tbody>
-            {mockData.map((item) => (
-              <tr key={item.id}>
-                <th>{item.id}</th>
-                <td>
-                  <div className="font-medium">{item.eventName}</div>
-                </td>
-                <td>
-                  <span className="font-bold text-primary">{item.attendeeCount}</span>/
-                  <span className="text-xs font-bold">{item.participantsCount}</span>
-                </td>
-                <td>
-                  <div className="text-sm max-w-xs truncate" title={item.description}>
-                    {item.description}
-                  </div>
-                </td>
-                <td>
-                  <div className="text-sm">
-                    <span> {item.startDate}</span>
-                    <br />
-                    <span> {item.endDate}</span>
-                  </div>
-                </td>
-                <td>
-                  <span className={`badge badge-${item.statusColor} badge-sm`}>{item.status}</span>
-                </td>
-                <td>
-                  <button className="btn btn-primary btn-sm" disabled={item.status === 'Đã kết thúc'}>
-                    Điểm danh
-                  </button>
-                </td>
-              </tr>
-            ))}
+            {mockData.map((item) => {
+              const { text, color, status } = DateUtils.formatTimeRange(item.startDate, item.endDate);
+              const isActive = ['near', 'active'].includes(status);
+              return (
+                <tr key={item.id}>
+                  <th>{item.id}</th>
+                  <td>
+                    <div className="font-medium">{item.eventName}</div>
+                  </td>
+                  <td>
+                    <span
+                      className={`font-bold ${Helper.belowAverage(item.attendeeCount ?? 0, item.participantsCount ?? 0) ? 'text-red-500' : 'text-green-500'}`}
+                    >
+                      {item.attendeeCount ?? 0}
+                    </span>
+                    /<span className="text-xs font-bold">{item.participantsCount ?? 0}</span>
+                  </td>
+                  <td>
+                    <div className="text-sm max-w-xs truncate" title={item.description}>
+                      {item.description}
+                    </div>
+                  </td>
+                  <td>
+                    <div className="text-sm">
+                      <span> {item.startDate}</span>
+                      <br />
+                      <span> {item.endDate}</span>
+                    </div>
+                  </td>
+                  <td>
+                    <span className={`badge badge-soft badge-${color} badge-sm`}>{text}</span>
+                  </td>
+                  <td>
+                    <button className="btn btn-primary btn-sm" disabled={!isActive}>
+                      Điểm danh
+                    </button>
+                  </td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
       </div>
