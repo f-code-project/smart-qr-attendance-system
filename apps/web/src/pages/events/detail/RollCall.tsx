@@ -14,9 +14,10 @@ interface Member {
 interface RollCallProps {
   eventId: number;
   isActive: boolean;
+  setMemberActive: (studentId: string | null) => void;
 }
 
-const RollCall = ({ eventId, isActive }: RollCallProps) => {
+const RollCall = ({ eventId, isActive, setMemberActive }: RollCallProps) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [filterStatus, setFilterStatus] = useState<'all' | 'attended' | 'not-attended'>('all');
 
@@ -25,25 +26,25 @@ const RollCall = ({ eventId, isActive }: RollCallProps) => {
     {
       id: 1,
       name: 'Nguyễn Văn A',
-      studentId: 'SV001',
+      studentId: 'SE200947',
       email: 'a.nguyen@example.com',
       phone: '0901234567',
-      isAttended: true,
+      isAttended: false,
       attendedAt: '2026-02-12 14:30:00',
     },
     {
       id: 2,
       name: 'Trần Thị B',
-      studentId: 'SV002',
+      studentId: 'SE203677',
       email: 'b.tran@example.com',
       phone: '0902234567',
-      isAttended: true,
+      isAttended: false,
       attendedAt: '2026-02-12 14:32:00',
     },
     {
       id: 3,
       name: 'Lê Văn C',
-      studentId: 'SV003',
+      studentId: 'SE210518',
       email: 'c.le@example.com',
       phone: '0903234567',
       isAttended: false,
@@ -69,7 +70,8 @@ const RollCall = ({ eventId, isActive }: RollCallProps) => {
     },
   ]);
 
-  const handleAttendance = (memberId: number, checked: boolean) => {
+  const handleAttendance = (memberId: number, studentId: string, checked: boolean) => {
+    setMemberActive(studentId);
     setMembers((prev) =>
       prev.map((member) =>
         member.id === memberId
@@ -194,7 +196,7 @@ const RollCall = ({ eventId, isActive }: RollCallProps) => {
                       type="checkbox"
                       className="checkbox checkbox-primary"
                       checked={member.isAttended}
-                      onChange={(e) => handleAttendance(member.id, e.target.checked)}
+                      onChange={(e) => handleAttendance(member.id, member.studentId, e.target.checked)}
                       // disabled={!isActive}
                     />
                   </td>
