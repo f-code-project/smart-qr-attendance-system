@@ -1,4 +1,4 @@
-import { Calendar, DollarSign, FileText, MapPin, Tag, Users } from 'lucide-react';
+import { Calendar, FileText, MapPin, Users } from 'lucide-react';
 import DateUtils from '../../../utils/date';
 
 interface EventInfoProps {
@@ -30,145 +30,111 @@ const EventInfo = ({ event }: EventInfoProps) => {
       TEAM_BUILDING: 'Team Building',
       WORKSHOP: 'Workshop',
       VOLUNTEER: 'Hoạt động tình nguyện',
-      OTHERS: 'Khác',
+      OTHERS: '📌 Khác',
     };
     return categories[category] || category;
   };
+
+  const attendanceRate = ((event.attendeeCount / event.participantsCount) * 100).toFixed(1);
 
   return (
     <div className="bg-base-100 shadow-xs rounded-lg">
       <div className="p-4 border-b">
         <h3 className="text-base font-semibold">Thông tin sự kiện</h3>
       </div>
-      <div className="p-4">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {/* Tên và mã sự kiện */}
-          <div className="space-y-1">
-            <div className="flex items-center gap-2 text-gray-600">
-              <FileText size={16} />
-              <span className="text-sm">Tên sự kiện</span>
-            </div>
-            <p className="font-semibold text-lg">{event.eventName}</p>
-          </div>
-
-          <div className="space-y-1">
-            <div className="flex items-center gap-2 text-gray-600">
-              <Tag size={16} />
-              <span className="text-sm">Mã sự kiện</span>
-            </div>
-            <p className="font-semibold">
-              <span className="badge badge-primary badge-outline">{event.eventCode}</span>
-            </p>
-          </div>
-
-          {/* Thể loại và trạng thái */}
-          <div className="space-y-1">
-            <div className="flex items-center gap-2 text-gray-600">
-              <Tag size={16} />
-              <span className="text-sm">Thể loại</span>
-            </div>
-            <p className="font-medium">{getCategoryLabel(event.category)}</p>
-          </div>
-
-          <div className="space-y-1">
-            <div className="flex items-center gap-2 text-gray-600">
-              <span className="text-sm">Trạng thái</span>
-            </div>
-            <p>
-              <span className={`badge badge-soft badge-${color} badge-sm`}>{text}</span>
-            </p>
-          </div>
-
-          {/* Thời gian */}
-          <div className="space-y-1">
-            <div className="flex items-center gap-2 text-gray-600">
-              <Calendar size={16} />
-              <span className="text-sm">Thời gian bắt đầu</span>
-            </div>
-            <p className="font-medium text-primary">{DateUtils.formatDateTime(event.startDate)}</p>
-          </div>
-
-          <div className="space-y-1">
-            <div className="flex items-center gap-2 text-gray-600">
-              <Calendar size={16} />
-              <span className="text-sm">Thời gian kết thúc</span>
-            </div>
-            <p className="font-medium text-secondary">{DateUtils.formatDateTime(event.endDate)}</p>
-          </div>
-
-          {/* Địa điểm */}
-          {event.location && (
-            <div className="space-y-1 md:col-span-2">
-              <div className="flex items-center gap-2 text-gray-600">
-                <MapPin size={16} />
-                <span className="text-sm">Địa điểm</span>
-              </div>
-              <p className="font-medium">{event.location}</p>
-            </div>
-          )}
-
-          {/* Số lượng tham gia */}
-          <div className="space-y-1">
-            <div className="flex items-center gap-2 text-gray-600">
-              <Users size={16} />
-              <span className="text-sm">Người tham gia</span>
-            </div>
-            <p className="font-semibold">
-              <span className="text-green-600 text-xl">{event.attendeeCount}</span>
-              <span className="text-gray-400 mx-1">/</span>
-              <span className="text-gray-700">{event.participantsCount}</span>
-            </p>
-            <div className="mt-2">
-              <progress
-                className="progress progress-success w-full"
-                value={event.attendeeCount}
-                max={event.participantsCount}
-              ></progress>
-              <p className="text-xs text-gray-500 mt-1">
-                {((event.attendeeCount / event.participantsCount) * 100).toFixed(1)}% đã điểm danh
-              </p>
+      <div className="p-4 space-y-6">
+        {/* Stats Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="stats shadow-xs border border-1">
+            <div className="stat py-3 px-4">
+              <div className="stat-title text-xs">Tổng số thành viên</div>
+              <div className="stat-value text-2xl text-primary">{event.participantsCount}</div>
+              <div className="stat-desc">Đã đăng ký tham gia</div>
             </div>
           </div>
 
-          {/* Số tiền */}
-          <div className="space-y-1">
-            <div className="flex items-center gap-2 text-gray-600">
-              <DollarSign size={16} />
-              <span className="text-sm">Số tiền thu/người</span>
+          <div className="stats shadow-xs border border-1">
+            <div className="stat py-3 px-4">
+              <div className="stat-title text-xs">Đã điểm danh</div>
+              <div className="stat-value text-2xl text-success">{event.attendeeCount}</div>
+              <div className="stat-desc">Có mặt tại sự kiện</div>
             </div>
-            <p className="font-semibold text-lg text-success">
-              {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(event.amount)}
-            </p>
-            <p className="text-xs text-gray-500">
-              Tổng dự kiến:{' '}
-              {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(
-                event.amount * event.participantsCount,
-              )}
-            </p>
           </div>
 
-          {/* Mô tả */}
-          {event.description && (
-            <div className="space-y-1 md:col-span-2">
-              <div className="flex items-center gap-2 text-gray-600">
-                <FileText size={16} />
-                <span className="text-sm">Mô tả</span>
-              </div>
-              <p className="text-gray-700 leading-relaxed">{event.description}</p>
+          <div className="stats shadow-xs border border-1">
+            <div className="stat py-3 px-4">
+              <div className="stat-title text-xs">Tỷ lệ tham gia</div>
+              <div className="stat-value text-2xl text-info">{attendanceRate}%</div>
+              <div className="stat-desc">{event.participantsCount - event.attendeeCount} người vắng</div>
             </div>
-          )}
-
-          {/* Ghi chú */}
-          {event.note && (
-            <div className="space-y-1 md:col-span-2">
-              <div className="flex items-center gap-2 text-gray-600">
-                <FileText size={16} />
-                <span className="text-sm">Ghi chú</span>
-              </div>
-              <p className="text-gray-700 leading-relaxed">{event.note}</p>
-            </div>
-          )}
+          </div>
         </div>
+
+        {/* Progress Bar */}
+        <div className="bg-gradient-to-r from-green-50 to-blue-50 p-4 rounded-lg border border-green-200">
+          <div className="flex justify-between items-center mb-2">
+            <span className="text-sm font-medium text-gray-700">Tiến độ điểm danh</span>
+            <span className="text-sm font-bold text-success">{attendanceRate}%</span>
+          </div>
+          <progress
+            className="progress progress-success w-full h-3"
+            value={event.attendeeCount}
+            max={event.participantsCount}
+          ></progress>
+        </div>
+
+        {/* Event Details */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="flex items-start gap-3 p-3 bg-blue-50 rounded-lg border border-blue-200">
+            <Calendar className="text-primary mt-0.5" size={20} />
+            <div>
+              <p className="text-xs text-gray-600 mb-1">Thời gian bắt đầu</p>
+              <p className="font-semibold text-primary">{DateUtils.formatDateTime(event.startDate)}</p>
+            </div>
+          </div>
+
+          <div className="flex items-start gap-3 p-3 bg-purple-50 rounded-lg border border-purple-200">
+            <Calendar className="text-secondary mt-0.5" size={20} />
+            <div>
+              <p className="text-xs text-gray-600 mb-1">Thời gian kết thúc</p>
+              <p className="font-semibold text-secondary">{DateUtils.formatDateTime(event.endDate)}</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Category and Status */}
+        <div className="flex flex-wrap gap-3 items-center">
+          <div className="badge badge-sm badge-outline badge-primary gap-2">
+            <Users size={14} />
+            {getCategoryLabel(event.category)}
+          </div>
+          <div className={`badge badge-outline badge-sm badge-${color} gap-2`}>
+            <div className="w-2 h-2 rounded-full bg-current"></div>
+            {text}
+          </div>
+        </div>
+
+        {/* Location */}
+        {event.location && (
+          <div className="flex items-start gap-3 p-4 bg-amber-50 rounded-lg border border-amber-200">
+            <MapPin className="text-amber-600 mt-0.5" size={20} />
+            <div>
+              <p className="text-xs text-gray-600 mb-1">Địa điểm tổ chức</p>
+              <p className="font-medium text-gray-800">{event.location}</p>
+            </div>
+          </div>
+        )}
+
+        {/* Description */}
+        {event.description && (
+          <div className="p-4 bg-gray-50 rounded-lg border border-gray-200">
+            <div className="flex items-center gap-2 mb-2">
+              <FileText size={16} className="text-gray-600" />
+              <span className="text-sm font-medium text-gray-700">Mô tả sự kiện</span>
+            </div>
+            <p className="text-gray-700 leading-relaxed">{event.description}</p>
+          </div>
+        )}
       </div>
     </div>
   );
