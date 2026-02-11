@@ -1,9 +1,11 @@
 import { Plus } from 'lucide-react';
 import { Link } from 'react-router';
 import TitlePage from '../../components/TitlePage';
+import useTitle from '../../hooks/useTitle';
 import Histories from './Histories';
 
 const HomePage = () => {
+  useTitle('Trang chủ');
   return (
     <>
       <div className="space-y-4">
