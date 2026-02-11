@@ -1,0 +1,1 @@
+- bun add <package-name> --cwd apps/web: đứng ở thư mục gốc, thêm package vào thư mục apps/web
