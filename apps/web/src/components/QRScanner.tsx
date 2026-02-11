@@ -11,20 +11,20 @@ const QRScanner: React.FC = () => {
     const videoElem = videoRef.current;
     if (!videoElem) return;
 
-    // KHỞI TẠO CẤU HÌNH MẠNH NHẤT
+    // KHỞI TẠO CẤU HÌNH TỐI ƯU CHO QR CODE XANH LÁ
     // eslint-disable-next-line react-hooks/immutability
     scannerRef.current = new QrScanner(videoElem, (res) => handleScan(res), {
-      // 1. Ép tốc độ quét lên mức tối đa của camera (thường 25-30fps)
+      // 1. Tăng tốc độ quét lên tối đa
       maxScansPerSecond: 30,
       preferredCamera: 'environment',
       highlightScanRegion: true,
-      highlightCodeOutline: true, // Vẽ viền để xác định tọa độ mã chấm tròn
+      highlightCodeOutline: true,
       returnDetailedScanResult: true,
 
-      // 2. CHỈ QUÉT VÙNG TRUNG TÂM (Tăng tốc độ xử lý lên 3-4 lần)
+      // 2. TĂNG VÙNG QUÉT LÊN 85% (từ 70%) - bao phủ toàn bộ QR code tốt hơn
       calculateScanRegion: (v) => {
         const smallestDim = Math.min(v.videoWidth, v.videoHeight);
-        const scanRegionSize = Math.round(smallestDim * 0.7); // Quét 70% vùng giữa
+        const scanRegionSize = Math.round(smallestDim * 0.85); // Tăng lên 85%
         return {
           x: Math.round((v.videoWidth - scanRegionSize) / 2),
           y: Math.round((v.videoHeight - scanRegionSize) / 2),
@@ -34,13 +34,14 @@ const QRScanner: React.FC = () => {
       },
     });
 
-    // 3. ĐẶC TRỊ MÀU XANH #5EB577
-    // Để màu xanh này hiện lên "đen nhất", ta hạ cực thấp trọng số Green (16)
-    // và đẩy cao Red/Blue để tạo độ tương phản gắt với nền trắng.
-    scannerRef.current.setGrayscaleWeights(120, 16, 120);
+    // 3. TỐI ƯU HÓA CHO MÀU XANH #5EB577 (RGB: 94, 181, 119)
+    // Công thức: Tăng trọng số Red và Blue, GIỮ Green ở mức trung bình
+    // Để màu xanh lá chuyển thành xám đậm rõ ràng hơn
+    scannerRef.current.setGrayscaleWeights(100, 50, 100);
 
-    // 4. Chế độ quét song song (Original + Inverted) giúp bắt mã trong mọi ánh sáng
-    scannerRef.current.setInversionMode('both');
+    // 4. CHỈ QUÉT CHẾ ĐỘ BÌNH THƯỜNG (không cần inverted)
+    // QR code xanh lá trên nền trắng không cần inverted mode
+    scannerRef.current.setInversionMode('original');
 
     scannerRef.current.start().catch((e) => console.error(e));
 
@@ -56,10 +57,12 @@ const QRScanner: React.FC = () => {
     isLocked.current = true;
     setResult(res.data);
 
-    // Rung một cái cho chuyên nghiệp (nếu điện thoại hỗ trợ)
-    if (navigator.vibrate) navigator.vibrate(100);
 
-    // Hiển thị nội dung và tự động mở khóa sau 2 giây để quét tiếp
+    if (navigator.vibrate) {
+      navigator.vibrate(200);
+    }
+
+
     setTimeout(() => {
       setResult('');
       isLocked.current = false;
