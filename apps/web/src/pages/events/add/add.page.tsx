@@ -2,6 +2,7 @@ import { ArrowLeft } from 'lucide-react';
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router';
 import TitlePage from '../../../components/TitlePage';
+import useTitle from '../../../hooks/useTitle';
 
 interface EventFormData {
   eventName: string;
@@ -53,6 +54,7 @@ const AddEventPage = () => {
   const handleCancel = () => {
     navigate('/events');
   };
+  useTitle('Tạo sự kiện mới');
 
   return (
     <div className="space-y-4">
