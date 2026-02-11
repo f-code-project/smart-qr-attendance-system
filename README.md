@@ -25,16 +25,15 @@ Hệ thống được đề xuất nhằm:
 
 # III. Mô hình vận hành tại sự kiện
 
-Hệ thống sử dụng **ít nhất** 2 ****thiết bị:
+Hệ thống sử dụng **ít nhất** 2 \*\*\*\*thiết bị:
 
 1. Laptop quản lý
-    
-    Dùng để theo dõi trạng thái điểm danh, hiển thị danh sách và xử lý thủ công khi xảy ra sự c.
-    
+
+   Dùng để theo dõi trạng thái điểm danh, hiển thị danh sách và xử lý thủ công khi xảy ra sự c.
+
 2. Điện thoại
-    
-    Dùng để quét mã QR của thành viên.
-    
+
+   Dùng để quét mã QR của thành viên.
 
 ---
 

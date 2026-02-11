@@ -102,14 +102,19 @@ const Histories = () => {
                   </td>
                   <td>
                     <div className="text-sm max-w-xs truncate" title={item.description}>
-                      {item.description}
+                      {item.description.slice(0, 50)} {item.description.length > 50 ? '...' : ''}
                     </div>
                   </td>
                   <td>
-                    <div className="text-sm">
-                      <span> {item.startDate}</span>
-                      <br />
-                      <span> {item.endDate}</span>
+                    <div className="flex flex-col text-sm gap-1">
+                      <span>
+                        <span className="font-semibold text-gray-600">Start:</span>{' '}
+                        <span className="text-primary">{DateUtils.formatDateTime(item.startDate)}</span>
+                      </span>
+                      <span>
+                        <span className="font-semibold text-gray-600">End:</span>{' '}
+                        <span className="text-secondary">{DateUtils.formatDateTime(item.endDate)}</span>
+                      </span>
                     </div>
                   </td>
                   <td>
