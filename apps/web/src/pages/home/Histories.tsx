@@ -1,3 +1,4 @@
+import { Link } from 'react-router';
 import Paginate from '../../components/Paginate';
 import DateUtils from '../../utils/date';
 import Helper from '../../utils/helpers';
@@ -10,7 +11,7 @@ const Histories = () => {
       participantsCount: 50,
       attendeeCount: 45,
       description: 'Họp tổng kết hoạt động tháng 1 và lên kế hoạch cho tháng 2',
-      startDate: '2026-02-13 14:00:00',
+      startDate: '2026-02-10 14:00:00',
       endDate: '2026-03-10 16:00:00',
       status: 'Sắp diễn ra',
       statusColor: 'info',
@@ -121,9 +122,9 @@ const Histories = () => {
                     <span className={`badge badge-soft badge-${color} badge-sm`}>{text}</span>
                   </td>
                   <td>
-                    <button className="btn btn-primary btn-sm" disabled={!isActive}>
-                      Điểm danh
-                    </button>
+                    <Link to={`/events/${item.id}`} className="btn btn-primary btn-sm" disabled={!isActive}>
+                      Chi tiết
+                    </Link>
                   </td>
                 </tr>
               );
