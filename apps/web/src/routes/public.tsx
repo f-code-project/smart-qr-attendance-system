@@ -33,7 +33,7 @@ export const publicRoutes = [
     ],
   },
   {
-    path: '/qr-scanner',
+    path: '/qr-scanner/:id',
     element: <ScannerPage />,
   },
 ];
