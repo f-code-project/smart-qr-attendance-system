@@ -1,6 +1,8 @@
 import { ArrowLeft } from 'lucide-react';
+import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router';
 import TitlePage from '../../../components/TitlePage';
+import { useNotificationSound } from '../../../hooks/useNotificationSound';
 import useTitle from '../../../hooks/useTitle';
 import DateUtils from '../../../utils/date';
 import ControlEvent from './ControlEvent';
@@ -8,6 +10,9 @@ import EventInfo from './EventInfo';
 import RollCall from './RollCall';
 
 const DetailEventPage = () => {
+  const [memberActive, setMemberActive] = useState<string | null>('');
+  const { playSound, stopSound } = useNotificationSound(`${memberActive!}.mp3`, false);
+  const { playSound: playTingSound } = useNotificationSound(`tingting.mp3`, false);
   useTitle('Chi tiết sự kiện');
   const { id } = useParams<{ id: string }>();
 
@@ -31,6 +36,11 @@ const DetailEventPage = () => {
   const { status } = DateUtils.formatTimeRange(event.startDate, event.endDate);
   const isActive = ['near', 'active'].includes(status);
 
+  useEffect(() => {
+    playTingSound();
+    playSound();
+  }, [memberActive]);
+
   return (
     <div className="space-y-4">
       <div className="flex justify-between items-center">
@@ -45,7 +55,7 @@ const DetailEventPage = () => {
 
       <EventInfo event={event} />
 
-      <RollCall eventId={event.id} isActive={isActive} />
+      <RollCall eventId={event.id} isActive={isActive} setMemberActive={setMemberActive} />
     </div>
   );
 };
