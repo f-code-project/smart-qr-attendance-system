@@ -1,8 +1,10 @@
 import { AlertCircle, ArrowLeft, Home } from 'lucide-react';
 import { Link, useNavigate } from 'react-router';
 import TitlePage from '../../components/TitlePage';
+import useTitle from '../../hooks/useTitle';
 
 const NotFoundPage = () => {
+  useTitle('Không tìm thấy trang');
   const navigate = useNavigate();
 
   const quickLinks = [
