@@ -91,15 +91,9 @@ const DetailEventPage = () => {
 
       {/* Tab Content */}
       {activeTab === 'overview' && (
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-          <div className="lg:col-span-2 space-y-4">
-            <QuickActions eventId={event.id} isActive={isActive} />
-            <EventInfo event={event} />
-            <AttendanceChart participantsCount={event.participantsCount} attendeeCount={event.attendeeCount} />
-          </div>
-          <div className="space-y-4">
-            <ActivityTimeline />
-          </div>
+        <div className="space-y-4">
+          <QuickActions eventId={event.id} isActive={isActive} />
+          <AttendanceChart participantsCount={event.participantsCount} attendeeCount={event.attendeeCount} />
         </div>
       )}
 
@@ -107,12 +101,7 @@ const DetailEventPage = () => {
         <RollCall eventId={event.id} isActive={isActive} setMemberActive={setMemberActive} />
       )}
 
-      {activeTab === 'activity' && (
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-          <ActivityTimeline />
-          <AttendanceChart participantsCount={event.participantsCount} attendeeCount={event.attendeeCount} />
-        </div>
-      )}
+      {activeTab === 'activity' && <ActivityTimeline />}
 
       {activeTab === 'settings' && (
         <div className="space-y-4">
