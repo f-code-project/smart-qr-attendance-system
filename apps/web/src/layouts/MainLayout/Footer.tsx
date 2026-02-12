@@ -122,9 +122,9 @@ const Footer = () => {
             <Link
               className="text-primary font-medium transition-colors hover:underline"
               target="_blank"
-              to="https://www.facebook.com/phamhoangtuanqn/"
+              to="https://www.facebook.com/fcodeclub"
             >
-              Phạm Hoàng Tuấn
+              Innovation F-Code Team
             </Link>
           </p>
         </div>
