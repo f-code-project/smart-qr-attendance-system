@@ -114,31 +114,28 @@ const RollCall = ({ eventId, isActive, setMemberActive }: RollCallProps) => {
   const totalCount = members.length;
 
   return (
-    <div className="bg-base-100 shadow-xs rounded-lg">
+    <div className="bg-base-100 shadow-xs rounded-sm">
       <div className="p-4 border-b">
         <div className="flex justify-between items-center">
           <h3 className="text-base font-semibold">Điểm danh thành viên</h3>
           <div className="flex items-center gap-2">
-            <span className="text-sm text-gray-600">
-              Đã điểm danh: <span className="font-bold  text-success">{attendedCount}</span>/{totalCount}
+            <span className="text-sm text-base-content/70">
+              Đã điểm danh: <span className="font-semibold text-success">{attendedCount}</span>/{totalCount}
             </span>
           </div>
         </div>
       </div>
 
-      {/* Filters */}
-      <div className="p-4 border-b bg-gray-50">
+      <div className="p-4 border-b">
         <div className="flex flex-col sm:flex-row gap-3">
-          <div className="form-control flex-1">
-            <div className="input-group ">
-              <input
-                type="text"
-                placeholder="Tìm kiếm theo tên hoặc MSSV..."
-                className="input input-bordered w-full"
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-              />
-            </div>
+          <div className="flex-1">
+            <input
+              type="text"
+              placeholder="Tìm kiếm theo tên hoặc MSSV..."
+              className="input input-bordered w-full"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
           </div>
           <div className="flex gap-2">
             <select
@@ -151,14 +148,13 @@ const RollCall = ({ eventId, isActive, setMemberActive }: RollCallProps) => {
               <option value="not-attended">Chưa điểm danh</option>
             </select>
             <button className="btn btn-primary gap-2" onClick={handleMarkAll} disabled={!isActive}>
-              <UserCheck size={18} />
+              <UserCheck size={16} />
               {members.every((m) => m.isAttended) ? 'Bỏ chọn tất cả' : 'Chọn tất cả'}
             </button>
           </div>
         </div>
       </div>
 
-      {/* Members Table */}
       <div className="overflow-x-auto">
         <table className="table">
           <thead>
@@ -184,50 +180,49 @@ const RollCall = ({ eventId, isActive, setMemberActive }: RollCallProps) => {
           <tbody>
             {filteredMembers.length === 0 ? (
               <tr>
-                <td colSpan={8} className="text-center py-8 text-gray-500">
+                <td colSpan={8} className="text-center py-8 text-base-content/50">
                   Không tìm thấy thành viên nào
                 </td>
               </tr>
             ) : (
               filteredMembers.map((member, index) => (
-                <tr key={member.id} className={member.isAttended ? 'bg-primary/10' : ''}>
+                <tr key={member.id} className={member.isAttended ? 'bg-primary/5' : ''}>
                   <td>
                     <input
                       type="checkbox"
                       className="checkbox checkbox-primary"
                       checked={member.isAttended}
                       onChange={(e) => handleAttendance(member.id, member.studentId, e.target.checked)}
-                      // disabled={!isActive}
                     />
                   </td>
                   <td>{index + 1}</td>
                   <td>
-                    <span>{member.studentId}</span>
+                    <span className="font-medium">{member.studentId}</span>
                   </td>
                   <td>
                     <div className="font-medium">{member.name}</div>
                   </td>
                   <td>
-                    <span className="text-sm text-gray-600">{member.email}</span>
+                    <span className="text-sm text-base-content/70">{member.email}</span>
                   </td>
                   <td>
-                    <span className="text-sm text-gray-600">{member.phone}</span>
+                    <span className="text-sm text-base-content/70">{member.phone}</span>
                   </td>
                   <td>
                     {member.attendedAt ? (
                       <span className="text-sm text-success">{member.attendedAt}</span>
                     ) : (
-                      <span className="text-sm text-gray-400">Chưa điểm danh</span>
+                      <span className="text-sm text-base-content/40">Chưa điểm danh</span>
                     )}
                   </td>
                   <td>
                     {member.isAttended ? (
-                      <span className="badge badge-sm badge-outline  badge-primary gap-1">
+                      <span className="badge badge-soft badge-success gap-1">
                         <Check size={14} />
                         Đã điểm danh
                       </span>
                     ) : (
-                      <span className="badge badge-sm badge-outline  badge-error gap-1">
+                      <span className="badge badge-soft badge-error gap-1">
                         <X size={14} />
                         Vắng
                       </span>
@@ -240,21 +235,20 @@ const RollCall = ({ eventId, isActive, setMemberActive }: RollCallProps) => {
         </table>
       </div>
 
-      {/* Summary */}
-      <div className="p-4 border-t bg-gray-50">
+      <div className="p-4 border-t">
         <div className="flex justify-between items-center text-sm">
-          <span className="text-gray-600">
+          <span className="text-base-content/70">
             Hiển thị {filteredMembers.length} / {totalCount} thành viên
           </span>
           <div className="flex gap-4">
             <span>
-              Có mặt: <span className="font-bold text-success">{attendedCount}</span>
+              Có mặt: <span className="font-semibold text-success">{attendedCount}</span>
             </span>
             <span>
-              Vắng: <span className="font-bold text-error">{totalCount - attendedCount}</span>
+              Vắng: <span className="font-semibold text-error">{totalCount - attendedCount}</span>
             </span>
             <span>
-              Tỷ lệ: <span className="font-bold">{((attendedCount / totalCount) * 100).toFixed(1)}%</span>
+              Tỷ lệ: <span className="font-semibold">{((attendedCount / totalCount) * 100).toFixed(1)}%</span>
             </span>
           </div>
         </div>
