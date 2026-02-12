@@ -53,60 +53,56 @@ const ActivityTimeline = () => {
   const getIcon = (type: Activity['type']) => {
     switch (type) {
       case 'attendance':
-        return <UserCheck size={20} className="text-success" />;
+        return <UserCheck size={18} className="text-success" />;
       case 'notification':
-        return <Mail size={20} className="text-info" />;
+        return <Mail size={18} className="text-info" />;
       case 'update':
-        return <CheckCircle size={20} className="text-primary" />;
+        return <CheckCircle size={18} className="text-primary" />;
       case 'alert':
-        return <AlertCircle size={20} className="text-warning" />;
+        return <AlertCircle size={18} className="text-warning" />;
       default:
-        return <Clock size={20} className="text-gray-400" />;
+        return <Clock size={18} className="text-base-content/40" />;
     }
   };
 
-  const getColorClass = (type: Activity['type']) => {
+  const getBadgeClass = (type: Activity['type']) => {
     switch (type) {
       case 'attendance':
-        return 'bg-success/10 border-success/20';
+        return 'badge-success';
       case 'notification':
-        return 'bg-info/10 border-info/20';
+        return 'badge-info';
       case 'update':
-        return 'bg-primary/10 border-primary/20';
+        return 'badge-primary';
       case 'alert':
-        return 'bg-warning/10 border-warning/20';
+        return 'badge-warning';
       default:
-        return 'bg-gray-100 border-gray-200';
+        return '';
     }
   };
 
   return (
-    <div className="bg-base-100 shadow-xs rounded-lg">
+    <div className="bg-base-100 shadow-xs rounded-sm">
       <div className="p-4 border-b">
         <h3 className="text-base font-semibold">Hoạt động gần đây</h3>
       </div>
       <div className="p-4">
-        <div className="space-y-3">
+        <div className="space-y-4">
           {activities.map((activity, index) => (
-            <div key={activity.id} className="flex gap-3">
-              {/* Timeline line */}
+            <div key={activity.id} className="flex gap-4">
               <div className="flex flex-col items-center">
-                <div
-                  className={`flex items-center justify-center w-10 h-10 rounded-full border-2 ${getColorClass(activity.type)}`}
-                >
+                <div className={`badge badge-soft ${getBadgeClass(activity.type)} p-2.5`}>
                   {getIcon(activity.type)}
                 </div>
-                {index < activities.length - 1 && <div className="w-0.5 h-full bg-gray-200 mt-1"></div>}
+                {index < activities.length - 1 && <div className="w-px flex-1 bg-base-300 mt-2"></div>}
               </div>
 
-              {/* Content */}
-              <div className="flex-1 pb-4">
-                <div className="flex items-start justify-between">
+              <div className="flex-1 pb-2">
+                <div className="flex items-start justify-between gap-4">
                   <div className="flex-1">
-                    <h4 className="font-semibold text-sm text-gray-800">{activity.title}</h4>
-                    <p className="text-xs text-gray-600 mt-1">{activity.description}</p>
+                    <h4 className="font-medium text-sm">{activity.title}</h4>
+                    <p className="text-xs text-base-content/60 mt-0.5">{activity.description}</p>
                   </div>
-                  <span className="text-xs text-gray-400 whitespace-nowrap ml-2">{activity.time}</span>
+                  <span className="text-xs text-base-content/40 whitespace-nowrap">{activity.time}</span>
                 </div>
               </div>
             </div>
