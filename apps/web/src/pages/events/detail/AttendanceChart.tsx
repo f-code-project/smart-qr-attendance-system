@@ -21,7 +21,9 @@ const AttendanceChart = ({ participantsCount, attendeeCount }: AttendanceChartPr
             className="bg-success h-full flex items-center justify-center transition-all"
             style={{ width: `${attendanceRate}%` }}
           >
-            {parseFloat(attendanceRate) > 15 && <span className="text-white font-semibold text-xs">{attendanceRate}%</span>}
+            {parseFloat(attendanceRate) > 15 && (
+              <span className="text-white font-semibold text-xs">{attendanceRate}%</span>
+            )}
           </div>
           <div
             className="bg-error h-full flex items-center justify-center transition-all"

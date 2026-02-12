@@ -90,9 +90,7 @@ const ActivityTimeline = () => {
           {activities.map((activity, index) => (
             <div key={activity.id} className="flex gap-4">
               <div className="flex flex-col items-center">
-                <div className={`badge badge-soft ${getBadgeClass(activity.type)} p-2.5`}>
-                  {getIcon(activity.type)}
-                </div>
+                <div className={`badge badge-soft ${getBadgeClass(activity.type)} p-2.5`}>{getIcon(activity.type)}</div>
                 {index < activities.length - 1 && <div className="w-px flex-1 bg-base-300 mt-2"></div>}
               </div>
 
