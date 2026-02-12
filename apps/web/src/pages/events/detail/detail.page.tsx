@@ -1,16 +1,20 @@
-import { ArrowLeft } from 'lucide-react';
+import { Activity, ArrowLeft, LayoutDashboard, Settings, Users } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router';
 import TitlePage from '../../../components/TitlePage';
 import { useNotificationSound } from '../../../hooks/useNotificationSound';
 import useTitle from '../../../hooks/useTitle';
 import DateUtils from '../../../utils/date';
+import ActivityTimeline from './ActivityTimeline';
+import AttendanceChart from './AttendanceChart';
 import ControlEvent from './ControlEvent';
 import EventInfo from './EventInfo';
+import QuickActions from './QuickActions';
 import RollCall from './RollCall';
 
 const DetailEventPage = () => {
   const [memberActive, setMemberActive] = useState<string | null>('');
+  const [activeTab, setActiveTab] = useState<'overview' | 'attendance' | 'activity' | 'settings'>('overview');
   const { playSound, stopSound } = useNotificationSound(`${memberActive!}.mp3`, false);
   const { playSound: playTingSound } = useNotificationSound(`tingting.mp3`, false);
   useTitle('Chi tiết sự kiện');
@@ -51,11 +55,60 @@ const DetailEventPage = () => {
         </Link>
       </div>
 
-      <ControlEvent eventId={event.id} eventName={event.eventName} isActive={isActive} />
+      {/* Tabs Navigation */}
+      <div className="bg-base-100 shadow-xs rounded-lg">
+        <div className="tabs tabs-boxed bg-transparent p-2 gap-2">
+          <button
+            className={`tab gap-2 ${activeTab === 'overview' ? 'tab-active' : ''}`}
+            onClick={() => setActiveTab('overview')}
+          >
+            <LayoutDashboard size={16} />
+            Tổng quan
+          </button>
+          <button
+            className={`tab gap-2 ${activeTab === 'attendance' ? 'tab-active' : ''}`}
+            onClick={() => setActiveTab('attendance')}
+          >
+            <Users size={16} />
+            Điểm danh
+          </button>
+          <button
+            className={`tab gap-2 ${activeTab === 'activity' ? 'tab-active' : ''}`}
+            onClick={() => setActiveTab('activity')}
+          >
+            <Activity size={16} />
+            Hoạt động
+          </button>
+          <button
+            className={`tab gap-2 ${activeTab === 'settings' ? 'tab-active' : ''}`}
+            onClick={() => setActiveTab('settings')}
+          >
+            <Settings size={16} />
+            Cài đặt
+          </button>
+        </div>
+      </div>
 
-      <EventInfo event={event} />
+      {/* Tab Content */}
+      {activeTab === 'overview' && (
+        <div className="space-y-4">
+          <QuickActions eventId={event.id} isActive={isActive} />
+          <AttendanceChart participantsCount={event.participantsCount} attendeeCount={event.attendeeCount} />
+        </div>
+      )}
 
-      <RollCall eventId={event.id} isActive={isActive} setMemberActive={setMemberActive} />
+      {activeTab === 'attendance' && (
+        <RollCall eventId={event.id} isActive={isActive} setMemberActive={setMemberActive} />
+      )}
+
+      {activeTab === 'activity' && <ActivityTimeline />}
+
+      {activeTab === 'settings' && (
+        <div className="space-y-4">
+          <ControlEvent eventId={event.id} eventName={event.eventName} isActive={isActive} />
+          <EventInfo event={event} />
+        </div>
+      )}
     </div>
   );
 };
