@@ -13,7 +13,7 @@ import QuickActions from './QuickActions';
 import RollCall from './RollCall';
 
 const DetailEventPage = () => {
-  const [memberActive, setMemberActive] = useState<string | null>('');
+  const [memberActive, setMemberActive] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState<'overview' | 'attendance' | 'activity' | 'settings'>('overview');
   const { playSound, stopSound } = useNotificationSound(`${memberActive!}.mp3`, false);
   const { playSound: playTingSound } = useNotificationSound(`tingting.mp3`, false);
@@ -41,8 +41,10 @@ const DetailEventPage = () => {
   const isActive = ['near', 'active'].includes(status);
 
   useEffect(() => {
-    playTingSound();
-    playSound();
+    if (memberActive) {
+      playTingSound();
+      playSound();
+    }
   }, [memberActive]);
 
   return (
@@ -55,9 +57,8 @@ const DetailEventPage = () => {
         </Link>
       </div>
 
-      {/* Tabs Navigation */}
-      <div className="bg-base-100 shadow-xs rounded-lg">
-        <div className="tabs tabs-boxed bg-transparent p-2 gap-2">
+      <div className="bg-base-100 shadow-xs rounded-sm">
+        <div className="tabs tabs-boxed bg-transparent p-2 gap-1">
           <button
             className={`tab gap-2 ${activeTab === 'overview' ? 'tab-active' : ''}`}
             onClick={() => setActiveTab('overview')}

@@ -44,66 +44,64 @@ const ControlEvent = ({ eventId, eventName, isActive }: ControlEventProps) => {
   };
 
   return (
-    <div className="bg-base-100 shadow-xs rounded-lg">
+    <div className="bg-base-100 shadow-xs rounded-sm">
       <div className="p-4 border-b">
         <h3 className="text-base font-semibold">Điều khiển sự kiện</h3>
       </div>
       <div className="p-4">
         <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
           <button className="btn btn-outline btn-primary gap-2" onClick={handleEdit}>
-            <Edit size={18} />
+            <Edit size={16} />
             Chỉnh sửa
           </button>
 
           <button className="btn btn-outline btn-error gap-2" onClick={handleDelete}>
-            <Trash2 size={18} />
+            <Trash2 size={16} />
             Xóa
           </button>
 
-          <button className="btn btn-outline btn-info gap-2" onClick={handleGenerateQR} disabled={!isActive}>
-            <QrCode size={18} />
+          <button className="btn btn-outline btn-primary gap-2" onClick={handleGenerateQR} disabled={!isActive}>
+            <QrCode size={16} />
             Tạo QR Code
           </button>
 
           <button className="btn btn-outline btn-success gap-2" onClick={handleExportAttendance}>
-            <Download size={18} />
+            <Download size={16} />
             Xuất Excel
           </button>
 
-          <button className="btn btn-outline btn-warning gap-2" onClick={handleSendNotification}>
-            <Mail size={18} />
+          <button className="btn btn-outline btn-primary gap-2" onClick={handleSendNotification}>
+            <Mail size={16} />
             Gửi thông báo
           </button>
 
-          <button className="btn btn-outline btn-secondary gap-2" onClick={handleViewStatistics}>
-            <BarChart3 size={18} />
+          <button className="btn btn-outline btn-primary gap-2" onClick={handleViewStatistics}>
+            <BarChart3 size={16} />
             Thống kê
           </button>
         </div>
 
-        {/* QR Code Modal */}
         {showQR && (
           <div className="modal modal-open" onClick={() => setShowQR(false)}>
             <div className="modal-box" onClick={(e) => e.stopPropagation()}>
-              <h3 className="font-bold text-lg mb-4">QR Code điểm danh</h3>
+              <h3 className="font-semibold text-lg mb-4">QR Code điểm danh</h3>
               <div className="flex flex-col items-center gap-4">
-                <div className="bg-white p-4 rounded-lg border-2 border-gray-200">
-                  {/* Placeholder for QR code */}
-                  <div className="w-64 h-64 bg-gray-100 flex items-center justify-center">
-                    <QrCode size={100} className="text-gray-400" />
+                <div className="bg-base-200 p-6 rounded-sm">
+                  <div className="w-64 h-64 bg-base-100 flex items-center justify-center rounded-sm">
+                    <QrCode size={80} className="text-base-content/30" />
                   </div>
                 </div>
-                <p className="text-sm text-gray-600 text-center">
+                <p className="text-sm text-base-content/70 text-center">
                   Quét mã QR này để điểm danh sự kiện: <br />
-                  <span className="font-semibold">{eventName}</span>
+                  <span className="font-medium">{eventName}</span>
                 </p>
                 <button className="btn btn-primary btn-sm gap-2">
                   <Download size={16} />
-                  Tải xuống QR Code
+                  Tải xuống
                 </button>
               </div>
               <div className="modal-action">
-                <button className="btn" onClick={() => setShowQR(false)}>
+                <button className="btn btn-sm" onClick={() => setShowQR(false)}>
                   Đóng
                 </button>
               </div>
