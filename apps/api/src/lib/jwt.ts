@@ -25,7 +25,6 @@ class JwtUtils {
     };
   }
 
-
   static async verifyToken(token: string, type: TokenType) {
     const secret = env.JWT_SECRET;
     const payload = await verify(token, secret, 'HS256');
