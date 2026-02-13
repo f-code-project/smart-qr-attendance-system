@@ -8,6 +8,7 @@ const QRScanner: React.FC = () => {
   console.log(`id: ${id}`);
 
   const { playSound: playTingSound } = useNotificationSound(`tingting.mp3`, false);
+  const { playSound } = useNotificationSound(`SE200947.mp3`, false);
   const videoRef = useRef<HTMLVideoElement>(null);
   const scannerRef = useRef<QrScanner | null>(null);
   const [result, setResult] = useState<string>('');
@@ -63,6 +64,7 @@ const QRScanner: React.FC = () => {
     isLocked.current = true;
     setResult(res.data);
     playTingSound();
+    playSound();
 
     if (navigator.vibrate) {
       navigator.vibrate(200);
@@ -153,13 +155,13 @@ const QRScanner: React.FC = () => {
                 </>
               )}
             </div>
-
+            {/* 
             {result && (
               <div className="animate-fade-in bg-white/10 backdrop-blur-md border border-white/20 rounded-xl px-4 py-3 max-w-md mx-auto">
                 <p className="text-xs text-gray-300 mb-1">Kết quả:</p>
                 <p className="text-white font-mono text-sm break-all">{result}</p>
               </div>
-            )}
+            )} */}
           </div>
         </div>
       </div>
