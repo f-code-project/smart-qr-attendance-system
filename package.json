@@ -22,5 +22,10 @@
   "workspaces": [
     "apps/*",
     "packages/*"
-  ]
+  ],
+  "lint-staged": {
+    "*.{js,ts,jsx,tsx}": [
+      "bun x prettier --write"
+    ]
+  }
 }
