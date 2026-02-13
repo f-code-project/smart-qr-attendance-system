@@ -1,6 +1,7 @@
 import { Context } from 'hono';
 import ApiResponse from '../common/api-response';
 import AppError from '../common/app-error';
+import { ErrorCode } from '../constants/error-code';
 
 export const errorHandler = async (err: any, c: Context) => {
   console.error(`[Error Log]: ${err.stack || err.message}`);
@@ -12,7 +13,7 @@ export const errorHandler = async (err: any, c: Context) => {
   return ApiResponse.error(
     c,
     'Đã có lỗi xảy ra bên phía máy chủ. Vui lòng liên hệ BTQ F-Code',
-    'INTERNAL_SERVER_ERROR',
+    ErrorCode.INTERNAL_ERROR,
     null,
     500,
   );

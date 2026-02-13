@@ -1,4 +1,5 @@
 import { Context } from 'hono';
+import { ErrorCode } from '../constants/error-code';
 import { HttpStatusCode } from './../constants/http-status';
 interface SuccessResponse<T> {
   success: true;
@@ -10,7 +11,7 @@ interface SuccessResponse<T> {
 interface ErrorResponse {
   success: false;
   message: string;
-  errorCode: string;
+  errorCode: ErrorCode;
   errors?: any;
   timestamp: string;
 }
@@ -35,7 +36,7 @@ class ApiResponse {
   static error(
     c: Context,
     message = 'Đã xảy ra lỗi',
-    errorCode = 'INTERNAL_ERROR',
+    errorCode: ErrorCode = ErrorCode.INTERNAL_ERROR,
     errors: any,
     statusCode: HttpStatusCode = HttpStatusCode.INTERNAL_SERVER_ERROR,
   ) {

@@ -1,6 +1,9 @@
 import { redis } from 'bun';
 import { v7 as uuidV7 } from 'uuid';
+import AppError from '../../common/app-error';
 import { ExpiresInTokenType, TokenType } from '../../constants/enum';
+import { ErrorCode } from '../../constants/error-code';
+import { HttpStatusCode } from '../../constants/http-status';
 import HashUtils from '../../lib/hash';
 import JwtUtils from '../../lib/jwt';
 import userRepository from './user.repository';
@@ -8,19 +11,37 @@ import userRepository from './user.repository';
 class UserService {
   async login(email: string, password: string) {
     const count = await this.checkCountErrorPwd(email);
-    if (count >= 5) throw new Error('Tài khoản của bạn tạm thời bị khóa do đăng nhập sai nhiều lần!');
+    // if (count >= 5) throw new Error('Tài khoản của bạn tạm thời bị khóa do đăng nhập sai nhiều lần!');
+    if (count >= 5) {
+      throw new AppError(
+        'Tài khoản của bạn tạm thời bị khóa do đăng nhập sai nhiều lần!',
+        ErrorCode.AUTH_ACCOUNT_LOCKED,
+        null,
+        HttpStatusCode.FORBIDDEN,
+      );
+    }
 
     const user = await userRepository.getUserByEmail(email);
     if (!user) {
       await this.incrCountErrorPwd(email); // vẫn incr tránh brute force
-      throw new Error('Email hoặc mật khẩu không chính xác!'); // luôn trả về tb chung chung :((((
+      throw new AppError(
+        'Email hoặc mật khẩu không chính xác',
+        ErrorCode.AUTH_INVALID_CREDENTIALS,
+        null,
+        HttpStatusCode.UNAUTHORIZED,
+      ); // luôn trả về tb chung chung :((((
     }
 
     const isCorrectPwd = await HashUtils.verifyPassword(password, user.password);
     if (!isCorrectPwd) {
       // add vô redis +=1 login sai mk
       await this.incrCountErrorPwd(email);
-      throw new Error('Email hoặc mật khẩu không chính xác!'); // luôn trả về tb chung chung :((((
+      throw new AppError(
+        'Email hoặc mật khẩu không chính xác',
+        ErrorCode.AUTH_INVALID_CREDENTIALS,
+        null,
+        HttpStatusCode.UNAUTHORIZED,
+      ); // luôn trả về tb chung chung :((((
     }
     // login thành công thì xóa count login sai
     await redis.del(`lock:${email}`);
