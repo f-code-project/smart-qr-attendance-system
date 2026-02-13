@@ -4,7 +4,7 @@ const envSchema = z.object({
   // SERVER
   PORT: z.string().default('8000').transform(Number),
 
-  // CORS
+  URL_BACKEND: z.string().url().default('http://localhost:8000'),
   URL_FRONTEND: z.string().url().default('http://localhost:5173'),
 
   // DATABASE
@@ -13,6 +13,8 @@ const envSchema = z.object({
   DB_USER: z.string().default('root'),
   DB_PASSWORD: z.string().default(''),
   DB_NAME_DATABASE: z.string().default('mydatabase'),
+
+  JWT_SECRET: z.string().default('mytoken'),
 });
 const parsedEnv = envSchema.safeParse(Bun.env);
 if (!parsedEnv.success) {
