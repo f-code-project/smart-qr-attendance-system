@@ -1,0 +1,1 @@
+Truy cập vô redis-cli docker: docker exec -it qr-smart-redis redis-cli
