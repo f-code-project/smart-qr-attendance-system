@@ -3,6 +3,7 @@ import { cors } from 'hono/cors';
 import { logger } from 'hono/logger';
 import './db/mysql';
 import { env } from './lib/env';
+import { errorHandler } from './middlewares/error-handler.middleware';
 import routeV1 from './routes/v1';
 const app = new Hono();
 
@@ -15,5 +16,6 @@ app.use(
     credentials: true,
   }),
 );
+app.onError(errorHandler);
 app.route('/api', routeV1);
 export default app;
