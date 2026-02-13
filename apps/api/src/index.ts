@@ -1,6 +1,7 @@
 import app from './app';
+import { env } from './lib/env';
 
 export default {
-  port: Bun.env.PORT || 8000,
+  port: env.PORT || 8000,
   fetch: app.fetch,
 };
