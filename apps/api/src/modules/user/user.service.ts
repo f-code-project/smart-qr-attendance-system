@@ -20,6 +20,9 @@ class UserService {
     return user;
   }
 
+  private asignAccessToken = (id: string, email: string) => {
+    
+  };
   private async checkCountErrrorPwd(email: string) {
     const count = await redis.get(`lock:${email}`);
     return Number(count || 0);
