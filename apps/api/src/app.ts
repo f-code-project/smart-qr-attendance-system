@@ -3,6 +3,7 @@ import { cors } from 'hono/cors';
 import { logger } from 'hono/logger';
 import './db/mysql';
 import { env } from './lib/env';
+import routeV1 from './routes/v1';
 const app = new Hono();
 
 app.use('*', logger());
@@ -14,7 +15,5 @@ app.use(
     credentials: true,
   }),
 );
-app.notFound((c) => {
-  return c.json({ message: 'Route not found' }, 404);
-});
+app.route('/api', routeV1);
 export default app;
