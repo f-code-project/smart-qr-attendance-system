@@ -1,7 +1,7 @@
 class HashUtils {
   static hashPassword = (plainPwd: string) => {
     const hashPwd = Bun.password.hash(plainPwd, {
-      algorithm: 'argon2id', // thuật toán =)) thuật toán này mạnh hơn HSA256 trong việc hash pwd =))
+      algorithm: 'argon2id', // thuật toán =)) thuật toán này mạnh hơn HS256 trong việc hash pwd =))
       memoryCost: 65536, // lượng ram sử dụng
       timeCost: 3, // số vòng lặp
     });

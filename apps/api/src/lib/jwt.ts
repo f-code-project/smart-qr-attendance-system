@@ -13,7 +13,7 @@ class JwtUtils {
       jti,
       nbf: now - 30, // trừ đi 30s để đảm bảo chênh lệch đồng hồ giữa các server nhưng token vẫn OK
       iat: now,
-      exp: now + ExpiresInTokenType.ACCESS,
+      exp: now + ExpiresInTokenType[type],
       typ: type,
     };
     const secret = env.JWT_SECRET;
