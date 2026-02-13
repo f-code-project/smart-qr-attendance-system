@@ -1,4 +1,4 @@
-class AuthUtils {
+class HashUtils {
   static hashPassword = (plainPwd: string) => {
     const hashPwd = Bun.password.hash(plainPwd, {
       algorithm: 'argon2id', // thuật toán =)) thuật toán này mạnh hơn HSA256 trong việc hash pwd =))
@@ -12,4 +12,4 @@ class AuthUtils {
     return isVerify;
   };
 }
-export default AuthUtils;
+export default HashUtils;
