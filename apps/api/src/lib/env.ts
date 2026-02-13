@@ -16,7 +16,7 @@ const envSchema = z.object({
 });
 const parsedEnv = envSchema.safeParse(Bun.env);
 if (!parsedEnv.success) {
-  console.error('Invalid environment variables:', parsedEnv.error.format());
+  console.error('Error parse enviroment =)))): ', parsedEnv.error.format());
   throw new Error('Invalid environment variables');
 }
 export const env = parsedEnv.data;
