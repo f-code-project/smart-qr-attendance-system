@@ -51,7 +51,7 @@ class UserService {
     await redis.set(`RT:${user.id}:${jti}`, refreshToken, 'EX', ExpiresInTokenType.REFRESH);
 
     return {
-      ...user,
+      // ...user,
       accessToken,
       refreshToken,
     };
