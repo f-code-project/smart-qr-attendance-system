@@ -6,6 +6,7 @@ class JwtUtils {
   static async signToken(email: string, type: TokenType) {
     const jti = crypto.randomUUID();
     const now = Math.floor(Date.now() / 1000);
+    const exp = now + ExpiresInTokenType[type];
     const payload = {
       iss: env.URL_BACKEND,
       sub: email,
@@ -21,6 +22,7 @@ class JwtUtils {
     return {
       token,
       jti,
+      exp,
       expiresAt: payload.exp,
     };
   }

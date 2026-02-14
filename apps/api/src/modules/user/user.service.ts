@@ -1,9 +1,9 @@
 import { redis } from 'bun';
 import { v7 as uuidV7 } from 'uuid';
 import AppError from '../../common/app-error';
-import { ExpiresInTokenType, TokenType } from '../../constants/enum';
 import { ErrorCode } from '../../constants/error-code';
 import { HttpStatusCode } from '../../constants/http-status';
+import { ExpiresInTokenType, TokenType } from '../../constants/token';
 import HashUtils from '../../lib/hash';
 import JwtUtils from '../../lib/jwt';
 import userRepository from './user.repository';
@@ -58,8 +58,9 @@ class UserService {
   }
 
   private async signToken(email: string) {
-    const { token: accessToken, jti } = await JwtUtils.signToken(email, TokenType.ACCESS);
+    const { token: accessToken, jti, exp } = await JwtUtils.signToken(email, TokenType.ACCESS);
     const refreshToken = uuidV7();
+    await this.saveRefreshToken(email, jti, refreshToken, new Date(exp * 1000));
     return {
       accessToken,
       refreshToken,
@@ -77,6 +78,11 @@ class UserService {
     const count = await redis.incr(key);
     if (count == 1) await redis.expire(key, 60 * 15); // lock trong 15p từ lần sau đầu tiên
     return count;
+  }
+
+  private async saveRefreshToken(userId: string, jti: string, refreshToken: string, expiresAt: Date) {
+    const tokenHash = await HashUtils.hashData(refreshToken);
+    await userRepository.saveRefreshToken(userId, jti, tokenHash, expiresAt);
   }
 }
 const userService = new UserService();

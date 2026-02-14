@@ -26,13 +26,30 @@ export const MemberSchema = z.object({
   createdAt: z.date().default(() => new Date()),
   updatedAt: z.date().default(() => new Date()),
 });
+export const RefreshTokenSchema = z.object({
+  id: z
+    .string()
+    .uuid()
+    .default(() => uuidv7()),
+  userId: z.string().uuid(),
+  tokenHash: z.string().min(1),
+  jti: z.string().uuid(),
+  createdByIp: z.string().optional(),
+  userAgent: z.string().optional(),
+  expiresAt: z.date(),
+  revokedAt: z.date().optional(),
+  replacedByTokenId: z.string().uuid().optional(),
+});
 export const createNewUser = (data: Partial<UserType>) => {
   return UserSchema.parse(data);
 };
 export const createNewMember = (data: Partial<MemberType>) => {
   return MemberSchema.parse(data);
 };
+export const createNewRefreshToken = (data: Partial<RefreshTokenType>) => {
+  return RefreshTokenSchema.parse(data);
+};
 
 export type UserType = z.infer<typeof UserSchema>;
-
 export type MemberType = z.infer<typeof MemberSchema>;
+export type RefreshTokenType = z.infer<typeof RefreshTokenSchema>;
