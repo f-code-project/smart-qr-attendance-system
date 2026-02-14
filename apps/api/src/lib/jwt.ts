@@ -1,5 +1,5 @@
 import { sign, verify } from 'hono/jwt';
-import { ExpiresInTokenType, TokenType } from '../constants/enum';
+import { ExpiresInTokenType, TokenType } from '../constants/token';
 import { env } from './env';
 
 class JwtUtils {
