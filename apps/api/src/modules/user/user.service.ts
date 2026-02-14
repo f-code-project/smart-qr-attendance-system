@@ -14,6 +14,7 @@ class UserService {
     this.keyLock = 'lock:';
   }
   async login(email: string, password: string) {
+    // return await HashUtils.hashPassword(password);
     const count = await this.checkCountErrorPwd(email);
     // if (count >= 5) throw new Error('Tài khoản của bạn tạm thời bị khóa do đăng nhập sai nhiều lần!');
     if (count >= 5) {
@@ -50,7 +51,7 @@ class UserService {
     // login thành công thì xóa count login sai
     await this.removeErrorCountPwd(email);
 
-    const { accessToken, refreshToken, jti } = await this.signToken(email);
+    const { accessToken, refreshToken, jti } = await this.signToken(user.id);
 
     // await redis.set(`RT:${user.id}:${jti}`, refreshToken, 'EX', ExpiresInTokenType.REFRESH);
 
@@ -61,10 +62,10 @@ class UserService {
     };
   }
 
-  private async signToken(email: string) {
-    const { token: accessToken, jti, exp } = await JwtUtils.signToken(email, TokenType.ACCESS);
+  private async signToken(userId: string) {
+    const { token: accessToken, jti, exp } = await JwtUtils.signToken(userId, TokenType.ACCESS);
     const refreshToken = uuidV7();
-    await this.saveRefreshToken(email, jti, refreshToken, new Date(exp * 1000));
+    await this.saveRefreshToken(userId, jti, refreshToken, new Date(exp * 1000));
     return {
       accessToken,
       refreshToken,

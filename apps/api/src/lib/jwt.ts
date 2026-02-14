@@ -3,13 +3,13 @@ import { ExpiresInTokenType, TokenType } from '../constants/token';
 import { env } from './env';
 
 class JwtUtils {
-  static async signToken(email: string, type: TokenType) {
+  static async signToken(userId: string, type: TokenType) {
     const jti = crypto.randomUUID();
     const now = Math.floor(Date.now() / 1000);
     const exp = now + ExpiresInTokenType[type];
     const payload = {
       iss: env.URL_BACKEND,
-      sub: email,
+      sub: userId,
       role: 'admin',
       jti,
       nbf: now - 30, // trừ đi 30s để đảm bảo chênh lệch đồng hồ giữa các server nhưng token vẫn OK
