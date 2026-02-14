@@ -17,5 +17,6 @@ app.use(
   }),
 );
 app.onError(errorHandler);
+app.get('/', (c) => c.text('Ping pong!'));
 app.route('/api', routeV1);
 export default app;
