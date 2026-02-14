@@ -11,13 +11,6 @@ export const UserSchema = z.object({
   createdAt: z.date().default(() => new Date()),
   updatedAt: z.date().default(() => new Date()),
 });
-
-export type UserType = z.infer<typeof UserSchema>;
-
-export const createNewUser = (data: Partial<UserType>) => {
-  return UserSchema.parse(data);
-};
-
 export const MemberSchema = z.object({
   id: z
     .string()
@@ -31,9 +24,13 @@ export const MemberSchema = z.object({
   createdAt: z.date().default(() => new Date()),
   updatedAt: z.date().default(() => new Date()),
 });
-
-export type MemberType = z.infer<typeof MemberSchema>;
-
+export const createNewUser = (data: Partial<UserType>) => {
+  return UserSchema.parse(data);
+};
 export const createNewMember = (data: Partial<MemberType>) => {
   return MemberSchema.parse(data);
 };
+
+export type UserType = z.infer<typeof UserSchema>;
+
+export type MemberType = z.infer<typeof MemberSchema>;
