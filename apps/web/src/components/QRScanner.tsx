@@ -3,6 +3,7 @@ import QrScanner from 'qr-scanner';
 import React, { useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router';
 import { useNotificationSound } from '../hooks/useNotificationSound';
+import Base64Utils from '../utils/base64';
 
 const QRScanner: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -14,7 +15,6 @@ const QRScanner: React.FC = () => {
   const [result, setResult] = useState<string>('');
   const [isFlashOn, setIsFlashOn] = useState(false);
   const isLocked = useRef(false);
-  const { playSound } = useNotificationSound(`${result.split('=')[1] ?? 'SE200947'}.mp3`, false);
 
   useEffect(() => {
     const videoElem = videoRef.current;
@@ -82,7 +82,15 @@ const QRScanner: React.FC = () => {
     isLocked.current = true;
     setResult(res.data);
     playTingSound();
-    playSound();
+    // playSound();
+    const [, studentCode] = Base64Utils.decodeBase64(res.data).split('|');
+    // alert(`Mã sinh viên: ${studentCode}`);
+    const sound = new Howl({
+      src: [`/musics/${studentCode ?? 'SE200947'}.mp3`],
+      volume: 1.0,
+      loop: false,
+    });
+    sound.play();
 
     if (navigator.vibrate) {
       navigator.vibrate(200);
