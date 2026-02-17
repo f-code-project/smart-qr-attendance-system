@@ -6,6 +6,7 @@ import { HttpStatusCode } from '../../constants/http-status';
 import { TokenType } from '../../constants/token';
 import HashUtils from '../../lib/hash';
 import JwtUtils from '../../lib/jwt';
+import { LoginRequestDTO } from './dtos/login.dto';
 import userRepository from './user.repository';
 
 class UserService {
@@ -13,7 +14,8 @@ class UserService {
   constructor() {
     this.keyLock = 'lock:';
   }
-  async login(email: string, password: string) {
+
+  async login({ email, password }: LoginRequestDTO) {
     // return await HashUtils.hashPassword(password);
     const count = await this.checkCountErrorPwd(email);
     // if (count >= 5) throw new Error('Tài khoản của bạn tạm thời bị khóa do đăng nhập sai nhiều lần!');
@@ -61,6 +63,8 @@ class UserService {
       refreshToken,
     };
   }
+
+  // async register();
 
   private async signToken(userId: string) {
     const { token: accessToken, jti, exp } = await JwtUtils.signToken(userId, TokenType.ACCESS);
